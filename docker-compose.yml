@@ -1,0 +1,22 @@
+version: "3.9"
+
+services:
+  dev-nginx:
+    image: nginx:${NGINX_IMAGE_TAG}
+    container_name: dev-nginx
+    hostname: dev-nginx
+    restart: unless-stopped
+    ports:
+      - "${NGINX_PORT}:80"
+    networks:
+      - dev-nginx
+    volumes:
+      - ./config/conf.d:/etc/nginx/conf.d:ro
+      - ./config/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ${NGINX_DATA_DIR}:/usr/share/nginx/html:ro
+    logging:
+      driver: local
+
+networks:
+  dev-nginx:
+    name: dev-nginx
